@@ -27,7 +27,7 @@ const WorkerLogin = () => {
           </div>
           <div>
             <button type="submit" className="w-full flex justify-center py-4 px-5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#23A6F0] hover:bg-[#4b8aff] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Login</button>
-            <p className="mt-6 text-center text-sm text-gray-600">
+            <p className="mt-6 text-center text-sm text-gray-500">
               Shop Over? <a href="#" className="text-[#23A6F0] hover:text-[#4b8aff]">Continue with Google</a>
             </p>
           </div>
