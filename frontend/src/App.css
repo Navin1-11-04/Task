@@ -8,4 +8,8 @@
 :root{
   --primary-font: "Poppins", sans-serif;
   --secondary-font:"Montserrat",sans-serif;
+  --primary-color:#100F14;
+}
+body {
+  font-family: var(--primary-font);
 }
