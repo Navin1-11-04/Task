@@ -1,9 +1,42 @@
-import React from 'react';
-import bg from '../../assets/worker_createbg.jpeg';
-import { LuEyeOff } from 'react-icons/lu';
-import { LuEye } from 'react-icons/lu';
+import React, { useState } from 'react';
+import axios from 'axios';
+import bg from '../assets/worker_createbg.jpeg';
+import { LuEyeOff, LuEye } from 'react-icons/lu';
 import { HiOutlineUser } from "react-icons/hi";
+import { Link } from 'react-router-dom';
+
 const CreateAccount = () => {
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage('');
+    setLoading(true);
+
+    try {
+      const response = await axios.post('http://localhost:5000/create_worker', {
+        email,
+        password,
+        confirm_password: confirmPassword,
+        name,
+        owner_id: 'owner_id_placeholder', // Replace with the actual owner ID
+      });
+
+      setMessage(response.data.message);
+    } catch (error) {
+      setMessage(error.response?.data.error || "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="w-full h-screen flex flex-col md:flex-row items-center justify-center">
       <div className="user absolute top-5 right-10 z-10">
@@ -11,7 +44,7 @@ const CreateAccount = () => {
       </div>
       <div className="hidden md:block md:w-[60%] h-full bg-cover bg-center -z-10 absolute inset-y-0 left-0" style={{ backgroundImage: `url(${bg})` }}></div>
       <div className="w-full md:w-1/2 flex flex-col items-center justify-center bg-white px-5 absolute inset-y-0 right-0 rounded-3xl">
-        <form className="space-y-5 md:space-y-6 w-full max-w-md flex flex-col">
+        <form className="space-y-5 md:space-y-6 w-full max-w-md flex flex-col" onSubmit={handleSubmit}>
           <div className="w-full mb-5">
             <h1 className="text-2xl md:text-3xl font-semibold text-[var(--primary-color)]">Create Worker Account</h1>
           </div>
@@ -22,7 +55,10 @@ const CreateAccount = () => {
               id="email"
               name="email"
               placeholder="Enter worker email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="mt-1 block w-full py-4 px-5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#23A6F0] focus:border-[#23A6F0] sm:text-sm"
+              required
             />
           </div>
 
@@ -33,7 +69,10 @@ const CreateAccount = () => {
               id="name"
               name="name"
               placeholder="Enter worker full name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="mt-1 block w-full py-4 px-5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#23A6F0] focus:border-[#23A6F0] sm:text-sm"
+              required
             />
           </div>
 
@@ -41,14 +80,20 @@ const CreateAccount = () => {
             <label htmlFor="password" className="block text-sm font-medium text-gray-500 w-full">Password</label>
             <div className="relative mt-1">
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 name="password"
                 placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="block w-full py-4 px-5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#23A6F0] focus:border-[#23A6F0] sm:text-sm"
+                required
               />
-              <span className="absolute inset-y-0 right-0 pr-5 flex items-center text-sm leading-5 text-gray-400">
-                <LuEyeOff />
+              <span 
+                className="absolute inset-y-0 right-0 pr-5 flex items-center text-sm leading-5 text-gray-400 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <LuEye /> : <LuEyeOff />}
               </span>
             </div>
           </div>
@@ -57,14 +102,20 @@ const CreateAccount = () => {
             <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-500 w-full">Confirm Password</label>
             <div className="relative mt-1">
               <input
-                type="password"
+                type={showConfirmPassword ? 'text' : 'password'}
                 id="confirm-password"
                 name="confirm-password"
                 placeholder="Retype password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 className="block w-full py-4 px-5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#23A6F0] focus:border-[#23A6F0] sm:text-sm"
+                required
               />
-              <span className="absolute inset-y-0 right-0 pr-5 flex items-center text-sm leading-5 text-gray-400">
-                <LuEyeOff />
+              <span 
+                className="absolute inset-y-0 right-0 pr-5 flex items-center text-sm leading-5 text-gray-400 cursor-pointer"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <LuEye /> : <LuEyeOff />}
               </span>
             </div>
           </div>
@@ -73,11 +124,13 @@ const CreateAccount = () => {
             <button
               type="submit"
               className="w-full flex justify-center py-4 px-5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#23A6F0] hover:bg-[#4b8aff] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              disabled={loading}
             >
-              Create an account
+              {loading ? 'Creating...' : 'Create an account'}
             </button>
+            {message && <p className="mt-2 text-center text-sm text-red-500">{message}</p>}
             <p className="mt-6 text-center text-sm text-gray-600">
-              Already have an account? <a href="#" className="text-[#23A6F0] hover:text-[#4b8aff">Login here</a>
+              Already have an account? <a className="text-[#23A6F0] hover:text-[#4b8aff]">Login here</a>
             </p>
           </div>
         </form>

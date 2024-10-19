@@ -1,5 +1,5 @@
 import React from 'react';
-import bg from '../../assets/login_img.jpeg';
+import bg from '../assets/login_img.jpeg';
 import { LuEyeOff } from "react-icons/lu";
 import { LuEye } from "react-icons/lu";
 
