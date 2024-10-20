@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://task-server-ns5r.onrender.com"}})
+CORS(app, resources={r"/*": {"origins": "https://task-client-eta.vercel.app"}})
 
 # Initialize Firebase Admin SDK with environment variables
 firebase_cred = credentials.Certificate({
