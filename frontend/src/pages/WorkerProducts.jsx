@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import UserContext from './UserContext'; // Import the context to access user email
+import UserContext from './UserContext';
 
 const WorkerProducts = () => {
-  const { userEmail } = useContext(UserContext); // Get the logged-in user's email from context
+  const { userEmail } = useContext(UserContext); 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ const WorkerProducts = () => {
     };
 
     fetchProducts();
-}, [userEmail]); // Use userEmail from context or state
+}, [userEmail]); 
 
 
   if (loading) return <div>Loading...</div>;
@@ -29,7 +29,7 @@ const WorkerProducts = () => {
 
   return (
     <div className="worker-products">
-      <h1 className="text-xl font-semibold">Products Uploaded by You</h1>
+      <h1 className="text-xl font-semibold uppercase my-4">Products Uploaded by You</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {products.length === 0 ? (
           <p>No products found for your email.</p>
@@ -44,9 +44,9 @@ const WorkerProducts = () => {
                   <div key={index} className="w-6 h-6 mr-2 mb-2 rounded-full" style={{ backgroundColor: color }} />
                 ))}
               </div>
-              <div className="mt-2">
+              <div className="mt-2 w-full h-[250px]">
                 {product.image_urls.map((url, index) => (
-                  <img key={index} src={url} alt={`Product image ${index + 1}`} className="w-24 h-24 object-cover rounded-lg mr-2" />
+                  <img key={index} src={url} alt={`Product image ${index + 1}`} className="w-full h-full object-cover rounded-lg mr-2" />
                 ))}
               </div>
             </div>
