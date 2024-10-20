@@ -80,31 +80,61 @@ const Login = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      const adminDocRef = doc(db, 'admins', user.uid);
-      const adminDocSnap = await getDoc(adminDocRef);
-
-      if (adminDocSnap.exists()) {
-        const adminData = adminDocSnap.data();
-        setUserRole(adminData.role);
-        setUserName(adminData.fullName);
-        setUserEmail(user.email);
-
-        localStorage.setItem('userRole', adminData.role);
-        localStorage.setItem('userName', adminData.fullName);
-        localStorage.setItem('userEmail', user.email);
-
-        navigate('/content');
+  
+      // Check if the user's email is in the authorizedEmails collection
+      const authorizedEmailRef = doc(db, 'authorizedEmails', user.email);
+      const authorizedEmailSnap = await getDoc(authorizedEmailRef);
+  
+      if (authorizedEmailSnap.exists()) {
+        // If the email is authorized, proceed with checking or adding to the "admins" collection
+        const adminDocRef = doc(db, 'admins', user.uid);
+        const adminDocSnap = await getDoc(adminDocRef);
+  
+        if (adminDocSnap.exists()) {
+          // Existing admin, proceed as normal
+          const adminData = adminDocSnap.data();
+          setUserRole(adminData.role);
+          setUserName(adminData.fullName);
+          setUserEmail(user.email);
+  
+          localStorage.setItem('userRole', adminData.role);
+          localStorage.setItem('userName', adminData.fullName);
+          localStorage.setItem('userEmail', user.email);
+  
+          navigate('/content');
+        } else {
+          // If the user doesn't exist in admins, create a new admin entry
+          const newAdminData = {
+            fullName: user.displayName,
+            email: user.email,
+            role: 'Admin'
+          };
+  
+          // Add new admin user to Firestore
+          await setDoc(adminDocRef, newAdminData);
+  
+          // Set the user's role and details
+          setUserRole(newAdminData.role);
+          setUserName(newAdminData.fullName);
+          setUserEmail(user.email);
+  
+          localStorage.setItem('userRole', newAdminData.role);
+          localStorage.setItem('userName', newAdminData.fullName);
+          localStorage.setItem('userEmail', user.email);
+  
+          navigate('/content');
+        }
       } else {
-        toast.error('Access denied: You are not authorized to login as admin.');
-        console.log('Access denied: User email is not in the admins collection.');
-        await auth.signOut();
+        // If email is not authorized, deny access
+        toast.error('Access denied: Your email is not authorized to sign in as an admin.');
+        await auth.signOut(); // Optionally sign out the user if their email is not authorized
       }
     } catch (error) {
       handleError(error.code); // Handle the error using the handleError function
       console.error('Error during Google login:', error);
     }
   };
-
+  
   return (
     <div className="w-full h-screen bg-white flex flex-col md:flex-row items-center justify-center p-5">
       <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center px-5">
