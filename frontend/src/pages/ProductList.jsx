@@ -9,7 +9,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/get_products');
+        const response = await axios.get('https://task-server-ns5r.onrender.com/get_products');
         setProducts(response.data);
       } catch (err) {
         setError('Error fetching products');

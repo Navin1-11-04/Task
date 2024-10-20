@@ -9,7 +9,7 @@ const WorkerList = () => {
   useEffect(() => {
     const fetchWorkers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/get_workers');
+        const response = await axios.get('https://task-server-ns5r.onrender.com/get_workers');
         setWorkers(response.data);
       } catch (err) {
         setError('Error fetching workers');

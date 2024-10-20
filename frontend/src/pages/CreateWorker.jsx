@@ -32,7 +32,7 @@ const CreateWorker = () => {
     try {
       console.log("Owner Email:", userEmail); // Add this line for debugging
 
-      const response = await axios.post('http://localhost:5000/create_worker', {
+      const response = await axios.post('https://task-server-ns5r.onrender.com/create_worker', {
         email,
         password,
         confirm_password: confirmPassword,

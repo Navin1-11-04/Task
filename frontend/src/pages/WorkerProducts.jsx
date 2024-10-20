@@ -11,7 +11,7 @@ const WorkerProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/get_products_by_creator_email/${userEmail}`);
+            const response = await axios.get(`https://task-server-ns5r.onrender.com/get_products_by_creator_email/${userEmail}`);
             setProducts(response.data);
         } catch (err) {
             setError(err.response?.data?.error || err.message);

@@ -52,7 +52,7 @@ const Product = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/create_product', {
+      const response = await fetch('https://task-server-ns5r.onrender.com/create_product', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
