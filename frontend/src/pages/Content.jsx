@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-// import Product from './Product';
+import Product from './Product';
 import ProductList from './ProductList';
 import CreateWorker from './CreateWorker';
 import WorkerList from './WorkersList';
@@ -7,8 +7,8 @@ import WorkerProducts from './WorkerProducts'; // Import the WorkerProducts comp
 import UserContext from './UserContext';
 
 const Content = () => {
-  const [activeTab, setActiveTab] = useState('add');
-  const { userRole, userId } = useContext(UserContext); // Access userRole and userId from context
+  const [activeTab, setActiveTab] = useState('add'); // Default to 'add' tab
+  const { userRole } = useContext(UserContext); // Access userRole from context
 
   return (
     <div className="w-full h-full">
@@ -57,11 +57,12 @@ const Content = () => {
       </div>
 
       <div className="tab-content">
-        {/* {activeTab === 'add' && <Product />} */}
+        {/* Render the active tab's content */}
+        {activeTab === 'add' && <Product />}
         {activeTab === 'view' && <ProductList />}
         {activeTab === 'create' && <CreateWorker />}
         {activeTab === 'workers' && <WorkerList />}
-        {activeTab === 'view-worker-products' && <WorkerProducts workerId={userId} />} {/* Pass userId to WorkerProducts */}
+        {activeTab === 'view-worker-products' && <WorkerProducts />} {/* No need to pass workerId now */}
       </div>
     </div>
   );

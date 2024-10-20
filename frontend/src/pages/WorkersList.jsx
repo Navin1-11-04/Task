@@ -21,18 +21,18 @@ const WorkerList = () => {
     fetchWorkers();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <div className="text-center text-lg">Loading...</div>;
+  if (error) return <div className="text-center text-red-500">{error}</div>;
 
   return (
-    <div className="worker-list">
-      <h1 className="text-2xl font-bold mb-4">Worker List</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <div className="worker-list p-5">
+      <h1 className="text-xl font-semibold text-center mb-6 text-gray-800">Worker List</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {workers.map((worker) => (
-          <div key={worker.id} className="bg-white border rounded-lg p-4">
-            <h2 className="text-xl font-semibold">{worker.name}</h2>
-            <p className="text-gray-700">Email: {worker.email}</p>
-            <p className="text-gray-600">Role: {worker.role}</p>
+          <div key={worker.id} className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-5">
+            <h2 className="text-2xl font-semibold text-gray-800">{worker.name}</h2>
+            <p className="text-gray-700">Email: <span className="font-medium">{worker.email}</span></p>
+            <p className="text-gray-600">Role: <span className="font-medium">{worker.role}</span></p>
           </div>
         ))}
       </div>

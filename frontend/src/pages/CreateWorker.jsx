@@ -51,11 +51,8 @@ const CreateWorker = () => {
 
   return (
     <div className="w-full h-screen flex flex-col md:flex-row items-center justify-center">
-      <div className="user absolute top-5 right-10 z-10">
-        <p className='flex items-center justify-between gap-5 text-[#23A6F0]'><HiOutlineUser /> {userEmail}</p>
-      </div>
-      <div className="hidden md:block md:w-[60%] h-full bg-cover bg-center -z-10 absolute inset-y-0 left-0" style={{ backgroundImage: `url(${bg})` }}></div>
-      <div className="w-full md:w-1/2 flex flex-col items-center justify-center bg-white px-5 absolute inset-y-0 right-0 rounded-3xl">
+      <div className="hidden md:block md:w-1/2 h-full bg-cover bg-center overflow-hidden" style={{ backgroundImage: `url(${bg})` }}></div>
+      <div className="w-full md:w-1/2 flex flex-col items-center justify-center bg-white px-5 rounded-3xl h-full">
         <form className="space-y-5 md:space-y-6 w-full max-w-md flex flex-col" onSubmit={handleSubmit}>
           <div className="w-full mb-5">
             <h1 className="text-2xl md:text-3xl font-semibold text-[var(--primary-color)]">Create Worker Account</h1>
