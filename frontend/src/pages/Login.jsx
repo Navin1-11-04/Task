@@ -4,7 +4,7 @@ import bg from '../assets/login_img.jpg';
 import { LuEyeOff, LuEye } from 'react-icons/lu';
 import { auth, db } from '../firebaseConfig';
 import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import UserContext from './UserContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
