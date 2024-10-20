@@ -25,8 +25,8 @@ const ProductList = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="product-list px-5 sm:px-10 d:px-15 overflow-y-auto h-full w-full">
-      <h1 className="text-xl font-semibold my-4">Product List</h1>
+    <div className="product-list overflow-y-auto h-full w-full">
+      <h1 className="text-lg font-semibold my-4 uppercase">Product List</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {products.map((product) => (
           <div key={product.id} className="bg-white border rounded-lg p-4">
@@ -39,7 +39,7 @@ const ProductList = () => {
                 <div key={index} className="w-5 h-5 rounded-full mx-2" style={{ backgroundColor: color }}></div>
               ))}
             </div>
-            <div className="my-2 h-[200px] md:h-[350px] overflow-hidden rounded-lg">
+            <div className="my-2 h-[200px] md:h-[300px] overflow-hidden rounded-lg">
               {product.image_urls && product.image_urls.map((url, index) => (
                 <img key={index} src={url} alt={`Product ${index + 1}`} className="w-full h-full rounded-lg mt-2 object-cover object-center" />
               ))}
