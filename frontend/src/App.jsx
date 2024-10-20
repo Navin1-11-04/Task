@@ -1,26 +1,20 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
-import CreateAccount from './pages/CreateAccount';
-// import WorkerLogin from './pages/WorkerLogin';
-// import Navbar from './components/Navbar';
-import ProductPage from './pages/ProductPage';
-function App() {
+import { UserProvider } from './pages/UserContext';
+import Login from './pages/Login';
+import Content from './pages/Content';
+
+const App = () => {
   return (
-    // <Router>
-    //   {/* <Navbar/> */}
-    //   <div className="App w-full h-[calc(100vh_-_70px)] mt-[70px]">
-    //     <Routes>
-    //       {/* <Route path="/signup" element={<CreateAccount />} />
-    //       <Route path="/" element={<WorkerLogin />} /> */}
-    //       <Route path="/" element={<ProductPage/>}/>
-    //     </Routes>
-    //   </div>
-    // </Router>
-    <>
-    {/* <ProductPage/> */}
-    <CreateAccount/>
-    </>
+    <UserProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/content" element={<Content />} />
+        </Routes>
+      </Router>
+    </UserProvider>
   );
-}
+};
 
 export default App;
