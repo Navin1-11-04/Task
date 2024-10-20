@@ -115,43 +115,6 @@ def upload_image_to_firebase(image_data, image_name):
         print("Error uploading image:", str(e))  # Debugging line
         raise Exception(f"Image upload failed: {str(e)}")
 
-
-# @app.route('/create_product', methods=['POST'])
-# def create_product():
-#     data = request.json
-#     print("Received data:", data)  # Debugging line
-#     name = data.get('name')
-#     price = data.get('price')
-#     description = data.get('description')
-#     colors = data.get('colors')
-#     images = data.get('images')  # Expecting a list of base64 image strings
-
-#     if not name or not price or not description:
-#         return jsonify({"error": "Missing required fields"}), 400
-
-#     image_urls = []
-#     try:
-#         for i, image in enumerate(images):
-#             image_url = upload_image_to_firebase(image, f"{name}_{i}.jpg")
-#             image_urls.append(image_url)
-
-#         product_data = {
-#             "name": name,
-#             "price": price,
-#             "description": description,
-#             "colors": colors,
-#             "image_urls": image_urls,
-#             "created_at": firestore.SERVER_TIMESTAMP
-#         }
-
-#         db.collection('products').add(product_data)
-
-#         return jsonify({"message": "Product created successfully", "image_urls": image_urls}), 200
-
-#     except Exception as e:
-#         print("Error creating product:", str(e))  # Debugging line
-#         return jsonify({"error": str(e)}), 500
-
 @app.route('/create_product', methods=['POST'])
 def create_product():
     data = request.json
@@ -298,4 +261,5 @@ def index():
     return "Flask Backend for Product App is running!"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run()
