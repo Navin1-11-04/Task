@@ -1,15 +1,12 @@
 import React, { createContext, useState, useEffect } from 'react';
 
-// Create UserContext
-export const UserContext = createContext(); // Use named export
+export const UserContext = createContext(); 
 
-// UserProvider component
 export const UserProvider = ({ children }) => {
-  const [userEmail, setUserEmail] = useState(localStorage.getItem('userEmail') || ''); // Store user email
+  const [userEmail, setUserEmail] = useState(localStorage.getItem('userEmail') || '');
   const [userRole, setUserRole] = useState(localStorage.getItem('userRole') || '');
   const [userName, setUserName] = useState(localStorage.getItem('userName') || '');
 
-  // Update local storage when userEmail, userRole, or userName changes
   useEffect(() => {
     if (userEmail) {
       localStorage.setItem('userEmail', userEmail);
@@ -22,12 +19,11 @@ export const UserProvider = ({ children }) => {
     }
   }, [userEmail, userRole, userName]);
 
-  // Function to clear user data on logout
   const clearUserData = () => {
-    setUserEmail(''); // Clear user email
+    setUserEmail(''); 
     setUserRole('');
     setUserName('');
-    localStorage.removeItem('userEmail'); // Remove user email from local storage
+    localStorage.removeItem('userEmail'); 
     localStorage.removeItem('userRole');
     localStorage.removeItem('userName');
   };
@@ -39,4 +35,4 @@ export const UserProvider = ({ children }) => {
   );
 };
 
-export default UserContext; // Optional default export
+export default UserContext; 
