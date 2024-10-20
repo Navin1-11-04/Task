@@ -27,7 +27,7 @@ const WorkerList = () => {
   return (
     <div className="worker-list w-full">
       <h1 className="text-lg font-semibold text-center mb-6 text-gray-800 uppercase">Worker List</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {workers.map((worker) => (
           <div key={worker.id} className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-5">
             <h2 className="text-base font-semibold text-gray-800">{worker.name}</h2>
