@@ -1,0 +1,36 @@
+# Python virtual environment
+venv/
+
+# Environment variable file
+.env
+
+# Environment example file (if you choose to keep it but want to exclude specific files)
+.env.local
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Logs
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Pytest cache
+.cache/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+eggs-info/
+lib/
+lib64/
+pip-log.txt
+pip-delete-this-directory.txt
+share/python-wheels/
+*.egg-info/
