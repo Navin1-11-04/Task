@@ -107,7 +107,7 @@ const Login = () => {
           const newAdminData = {
             fullName: user.displayName,
             email: user.email,
-            role: 'Admin'
+            role: 'owner'
           };
   
           // Add new admin user to Firestore
