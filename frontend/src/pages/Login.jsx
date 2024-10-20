@@ -69,7 +69,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Error logging in:', error);
-      handleError(error.code); // Handle the error using the handleError function
+      handleError(error.code);
     } finally {
       setLoading(false);
     }
@@ -80,57 +80,48 @@ const Login = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-  
-      // Check if the user's email is in the authorizedEmails collection
       const authorizedEmailRef = doc(db, 'authorizedEmails', user.email);
       const authorizedEmailSnap = await getDoc(authorizedEmailRef);
-  
+
       if (authorizedEmailSnap.exists()) {
-        // If the email is authorized, proceed with checking or adding to the "admins" collection
         const adminDocRef = doc(db, 'admins', user.uid);
         const adminDocSnap = await getDoc(adminDocRef);
-  
+
         if (adminDocSnap.exists()) {
-          // Existing admin, proceed as normal
           const adminData = adminDocSnap.data();
           setUserRole(adminData.role);
           setUserName(adminData.fullName);
           setUserEmail(user.email);
-  
+
           localStorage.setItem('userRole', adminData.role);
           localStorage.setItem('userName', adminData.fullName);
           localStorage.setItem('userEmail', user.email);
-  
+
           navigate('/content');
         } else {
-          // If the user doesn't exist in admins, create a new admin entry
           const newAdminData = {
             fullName: user.displayName,
             email: user.email,
             role: 'Owner'
           };
-  
-          // Add new admin user to Firestore
+
           await setDoc(adminDocRef, newAdminData);
-  
-          // Set the user's role and details
           setUserRole(newAdminData.role);
           setUserName(newAdminData.fullName);
           setUserEmail(user.email);
-  
+
           localStorage.setItem('userRole', newAdminData.role);
           localStorage.setItem('userName', newAdminData.fullName);
           localStorage.setItem('userEmail', user.email);
-  
+
           navigate('/content');
         }
       } else {
-        // If email is not authorized, deny access
         toast.error('Access denied: Your email is not authorized to sign in as an admin.');
-        await auth.signOut(); // Optionally sign out the user if their email is not authorized
+        await auth.signOut();
       }
     } catch (error) {
-      handleError(error.code); // Handle the error using the handleError function
+      handleError(error.code);
       console.error('Error during Google login:', error);
     }
   };
@@ -150,7 +141,7 @@ const Login = () => {
               id="worker-email"
               name="email"
               placeholder="Enter worker email address"
-              className="mt-1 block w-full py-4 px-5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#23A6F0] focus:border-[#23A6F0] sm:text-sm"
+              className="mt-1 block w-full py-4 px-5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-violet-500 focus:border-violet-500 sm:text-sm"
               required
               value={email}
               autoComplete="current-email"
@@ -165,7 +156,7 @@ const Login = () => {
                 id="worker-password"
                 name="password"
                 placeholder="Enter your password"
-                className="block w-full py-4 px-5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#23A6F0] focus:border-[#23A6F0] sm:text-sm"
+                className="block w-full py-4 px-5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-violet-500 focus:border-violet-500 sm:text-sm"
                 value={password}
                 autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
@@ -182,12 +173,12 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center py-4 px-5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#23A6F0] hover:bg-[#4b8aff] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="w-full flex justify-center py-4 px-5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-violet-500 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-600"
             >
               {loading ? 'Logging in...' : 'Login'}
             </button>
-            <p className="mt-6 text-center text-sm text-gray-500 flex items-center justify-center cursor-pointer">
-              Shop Owner? <p onClick={handleGoogleLogin} className="text-[#23A6F0] hover:text-[#4b8aff]">Continue with Google</p>
+            <p className="mt-6 text-center text-sm text-gray-500 flex items-center justify-center cursor-pointer gap-1">
+              Shop Owner ? <p onClick={handleGoogleLogin} className="text-violet-500 hover:text-violet-700">Continue with Google</p>
             </p>
           </div>
         </form>

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './pages/UserContext';
 import Login from './pages/Login';
 import Content from './pages/Content';
-
+import './App.css'
 const App = () => {
   return (
     <UserProvider>

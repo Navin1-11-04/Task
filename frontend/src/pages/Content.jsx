@@ -3,68 +3,48 @@ import Product from './Product';
 import ProductList from './ProductList';
 import CreateWorker from './CreateWorker';
 import WorkerList from './WorkersList';
-import WorkerProducts from './WorkerProducts'; // Import the WorkerProducts component
+import WorkerProducts from './WorkerProducts';
 import UserContext from './UserContext';
-
+import Navbar from '../components/Navbar';
 const Content = () => {
-  const [activeTab, setActiveTab] = useState('add'); // Default to 'add' tab
-  const { userRole } = useContext(UserContext); // Access userRole from context
+  const [activeTab, setActiveTab] = useState('add');
+  const { userRole } = useContext(UserContext);
+
+  const tabs = [
+    { label: 'New Product', value: 'add', component: <Product /> },
+    ...(userRole === 'Owner'
+      ? [
+          { label: 'View Products', value: 'view', component: <ProductList /> },
+          { label: 'Create Worker', value: 'create', component: <CreateWorker /> },
+          { label: 'View Workers', value: 'workers', component: <WorkerList /> },
+        ]
+      : []),
+    ...(userRole === 'Worker'
+      ? [{ label: 'Worker Created Products', value: 'view-worker-products', component: <WorkerProducts /> }]
+      : []),
+  ];
 
   return (
-    <div className="w-full h-full">
-      <div className="tabs w-full flex items-center justify-start gap-3 py-2 bg-gray-50 px-5 md:px-10 overflow-x-auto">
-        {/* Both Worker and Owner see New Product */}
-        <button
-          className={`py-1.5 px-4 rounded-full text-sm font-normal whitespace-nowrap ${activeTab === 'add' ? 'active bg-zinc-800 text-white' : ''}`}
-          onClick={() => setActiveTab('add')}
-        >
-          New Product
-        </button>
-
-        {/* Owner-only tabs */}
-        {userRole === 'Owner' && (
-          <>
-            <button
-              className={`py-1.5 px-4 rounded-full text-sm font-normal whitespace-nowrap ${activeTab === 'view' ? 'active bg-zinc-800 text-white' : ''}`}
-              onClick={() => setActiveTab('view')}
-            >
-              View Products
-            </button>
-            <button
-              className={`py-1.5 px-4 rounded-full text-sm font-normal whitespace-nowrap ${activeTab === 'create' ? 'active bg-zinc-800 text-white' : ''}`}
-              onClick={() => setActiveTab('create')}
-            >
-              Create Worker
-            </button>
-            <button
-              className={`py-1.5 px-4 rounded-full text-sm font-normal whitespace-nowrap ${activeTab === 'workers' ? 'active bg-zinc-800 text-white' : ''}`}
-              onClick={() => setActiveTab('workers')}
-            >
-              View Workers
-            </button>
-          </>
-        )}
-
-        {/* Worker-only tab */}
-        {userRole === 'Worker' && (
+    <>
+    <Navbar/>
+    <div className="w-full h-full flex flex-col">
+      <div className="tabs w-full flex items-center justify-start gap-8 md:gap-10 overflow-x-auto h-[50px] px-5 sm:px-10 md:px-15 bg-gray-50">
+        {tabs.map((tab) => (
           <button
-            className={`py-1.5 px-4 rounded-full text-sm font-normal whitespace-nowrap ${activeTab === 'view-worker-products' ? 'active bg-zinc-800 text-white' : ''}`}
-            onClick={() => setActiveTab('view-worker-products')}
+            key={tab.value}
+            className={`text-sm font-normal whitespace-nowrap text-neutral-800 ${activeTab === tab.value ? 'active underline underline-offset-[17px] decoration-2 text-violet-700' : ''}`}
+            onClick={() => setActiveTab(tab.value)}
           >
-            Worker Created Products
+            {tab.label}
           </button>
-        )}
+        ))}
       </div>
 
-      <div className="tab-content">
-        {/* Render the active tab's content */}
-        {activeTab === 'add' && <Product />}
-        {activeTab === 'view' && <ProductList />}
-        {activeTab === 'create' && <CreateWorker />}
-        {activeTab === 'workers' && <WorkerList />}
-        {activeTab === 'view-worker-products' && <WorkerProducts />} {/* No need to pass workerId now */}
+      <div className="tab-content w-full h-auto pt-5 px-5 sm:px-10 md:px-15">
+        {tabs.find((tab) => tab.value === activeTab)?.component}
       </div>
     </div>
+    </>
   );
 };
 
