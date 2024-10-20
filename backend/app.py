@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+CORS(app, resources={r"/*": {"origins": "https://task-git-master-navin-kumar-rs-projects.vercel.app/"}})
 
 # Initialize Firebase Admin SDK with environment variables
 firebase_cred = credentials.Certificate({
