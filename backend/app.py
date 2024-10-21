@@ -85,34 +85,33 @@ def create_worker():
         return jsonify({"error": str(e)}), 500  # Return detailed error
 
 
-
 def upload_image_to_firebase(image_data, image_name):
-    """
-    Upload a base64 image string to Firebase Storage.
-    Returns the public URL of the uploaded image.
-    """
     try:
-        print("Uploading image:", image_name)  # Debugging line
-        # Open the image using PIL
+        print("Uploading image:", image_name)
+
         image = Image.open(BytesIO(base64.b64decode(image_data.split(',')[1])))
-        
-        # Convert to RGB if the image is in RGBA mode
-        if image.mode == 'RGBA':
+
+        image_format = image.format if image.format else "JPEG"
+
+        if image_format == 'JPEG' and image.mode == 'RGBA':
             image = image.convert('RGB')
 
-        blob = bucket.blob(f'products/{image_name}')
-        buffer = BytesIO()
-        image.save(buffer, format="JPEG")
-        buffer.seek(0)  # Reset buffer position to the beginning
-        blob.upload_from_string(buffer.getvalue(), content_type="image/jpeg")
+        content_type = "image/png" if image_format == "PNG" else "image/jpeg"
 
-        # Make the blob publicly accessible
+        blob = bucket.blob(f'products/{image_name}')
+        
+        buffer = BytesIO()
+        image.save(buffer, format=image_format)
+        buffer.seek(0)
+
+        blob.upload_from_string(buffer.getvalue(), content_type=content_type)
+
         blob.make_public()
-        print("Image uploaded successfully:", blob.public_url)  # Debugging line
+        print("Image uploaded successfully:", blob.public_url)
 
         return blob.public_url
     except Exception as e:
-        print("Error uploading image:", str(e))  # Debugging line
+        print("Error uploading image:", str(e))
         raise Exception(f"Image upload failed: {str(e)}")
 
 @app.route('/create_product', methods=['POST'])
