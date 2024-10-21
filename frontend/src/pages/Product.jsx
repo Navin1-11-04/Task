@@ -22,37 +22,41 @@ const Product = () => {
   };
 
   const handleImageUpload = (e) => {
-  const files = Array.from(e.target.files);
-  const newImagesPromises = files.map((file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
+    const files = Array.from(e.target.files);
+    const newImagesPromises = files.map((file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+        reader.onerror = reject;
+      });
     });
-  });
 
-  Promise.all(newImagesPromises)
-    .then((loadedImages) => {
-      setImages((prevImages) => [...prevImages, ...loadedImages]);
+    Promise.all(newImagesPromises)
+      .then((loadedImages) => {
+        setImages((prevImages) => [...prevImages, ...loadedImages]);
 
-      if (loadedImages.length && previewImage === defaultimg) {
-        setPreviewImage(loadedImages[0]);
-      }
-    })
-    .catch((error) => console.error('Error loading images:', error));
-};
+        if (loadedImages.length && previewImage === defaultimg) {
+          setPreviewImage(loadedImages[0]);
+        }
+      })
+      .catch((error) => console.error('Error loading images:', error));
+  };
 
-  const handleImageClick = () => {
-    document.getElementById('fileInput').click();
+  const handleImageClick = (e) => {
+    e.stopPropagation();
+    document.getElementById('fileInput').click(); // Ensure the file input only opens once
   };
 
   const handleImageRemove = (index) => {
-    setImages(images.filter((_, i) => i !== index));
+    const updatedImages = images.filter((_, i) => i !== index);
+
+    setImages(updatedImages);
+
     if (previewImage === images[index]) {
-      setPreviewImage(images[0] || defaultimg);
+      setPreviewImage(updatedImages[0] || defaultimg); // Set the next available image or default
     }
   };
 
