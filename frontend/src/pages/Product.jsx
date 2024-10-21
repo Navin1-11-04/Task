@@ -22,6 +22,7 @@ const Product = () => {
   };
 
   const handleImageUpload = (e) => {
+    e.stopPropagation();  // Prevents any unwanted propagation of events
     const files = Array.from(e.target.files);
     const newImagesPromises = files.map((file) => {
       return new Promise((resolve, reject) => {
@@ -46,8 +47,12 @@ const Product = () => {
   };
 
   const handleImageClick = (e) => {
-    e.stopPropagation();
-    document.getElementById('fileInput').click(); // Ensure the file input only opens once
+    e.stopPropagation();  // Prevent the event from bubbling up
+    const fileInput = document.getElementById('fileInput');
+    
+    if (fileInput) {
+      fileInput.click();  // Programmatically trigger the file input only once
+    }
   };
 
   const handleImageRemove = (index) => {
