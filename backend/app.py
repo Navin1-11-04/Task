@@ -160,6 +160,12 @@ def create_product():
         print("Error creating product:", str(e))  # Log the error
         return jsonify({"error": "Failed to create product: " + str(e)}), 500
 
+@app.route(/delete_product/<product_id>',method=['POST])
+def delete_product(product_id):
+    try:
+       product_to_delete = db.collection('products').remove('product_id', '===',id)
+    except Exception as e:
+    return jsonify({"error".str(e)}),500
 
 @app.route('/get_products_by_creator_email/<creator_email>', methods=['GET'])
 def get_products_by_creator_email(creator_email):
