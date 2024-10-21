@@ -199,13 +199,13 @@ const Product = () => {
                   type="text"
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
-                  className="border-[1px] border-gray-400 rounded px-3 py-1 font-normal text-sm focus:outline-none focus:ring focus:ring-violet-300"
+                  className="border-[1px] border-gray-400 rounded px-2 py-1 md:px-3 font-normal text-sm focus:outline-none focus:ring focus:ring-violet-300"
                   placeholder="#000000"
                 />
                 <button
                   type="button"
                   onClick={addColor}
-                  className="bg-violet-500 hover:bg-violet-600 transition-colors duration-200 px-4 py-[7px] rounded text-white font-normal text-xs"
+                  className="bg-violet-500 hover:bg-violet-600 transition-colors duration-200 px-4 py-[5px] md:py-[7px] rounded text-white font-normal text-xs"
                 >
                   Add
                 </button>
