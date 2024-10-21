@@ -21,29 +21,25 @@ const Product = () => {
     setColor('#000000');
   };
 
-  const handleImageUpload = (e) => {
-    e.stopPropagation();  // Prevents any unwanted propagation of events
+ const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
-    const newImagesPromises = files.map((file) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
+    const newImages = files.map((file) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      return new Promise((resolve) => {
         reader.onloadend = () => {
           resolve(reader.result);
         };
-        reader.onerror = reject;
       });
     });
 
-    Promise.all(newImagesPromises)
-      .then((loadedImages) => {
-        setImages((prevImages) => [...prevImages, ...loadedImages]);
-
-        if (loadedImages.length && previewImage === defaultimg) {
-          setPreviewImage(loadedImages[0]);
-        }
-      })
-      .catch((error) => console.error('Error loading images:', error));
+    Promise.all(newImages).then((loadedImages) => {
+      setImages((prevImages) => [...prevImages, ...loadedImages]);
+      if (loadedImages.length && previewImage === defaultimg) {
+        setPreviewImage(loadedImages[0]);
+      }
+    });
   };
 
   const handleImageClick = (e) => {
