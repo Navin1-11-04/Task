@@ -34,7 +34,7 @@ const ProductList = () => {
       <h1 className="text-lg font-semibold my-4 uppercase">Product List</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {products.map((product) => (
-          <div key={product.id} className="bg-white border rounded-lg p-4 relative">
+          <div key={product.id} className="bg-white border rounded-lg p-4 relative top-0 right-0 z-10">
              <div className="w-auto absolute bg-red-500 rounded-full py-1 px-3 text-white text-sm">
               delete
             </div>
