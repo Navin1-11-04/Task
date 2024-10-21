@@ -22,25 +22,28 @@ const Product = () => {
   };
 
   const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-    const newImages = files.map((file) => {
+  const files = Array.from(e.target.files);
+  const newImagesPromises = files.map((file) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-
-      return new Promise((resolve) => {
-        reader.onloadend = () => {
-          resolve(reader.result);
-        };
-      });
+      reader.onloadend = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
     });
+  });
 
-    Promise.all(newImages).then((loadedImages) => {
+  Promise.all(newImagesPromises)
+    .then((loadedImages) => {
       setImages((prevImages) => [...prevImages, ...loadedImages]);
+
       if (loadedImages.length && previewImage === defaultimg) {
         setPreviewImage(loadedImages[0]);
       }
-    });
-  };
+    })
+    .catch((error) => console.error('Error loading images:', error));
+};
 
   const handleImageClick = () => {
     document.getElementById('fileInput').click();
