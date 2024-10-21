@@ -5,6 +5,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deletedProduct,SetDeletedProduct] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -20,6 +21,10 @@ const ProductList = () => {
 
     fetchProducts();
   }, []);
+  useEffect(()=>{
+    const deleteProduct = await axios.post(''https://task-d5dy.onrender.com/delete_product/${product_id}');
+    SetDeletedProducts((items)=> items.filter(item.id === deleteProduct));
+  }
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -29,7 +34,10 @@ const ProductList = () => {
       <h1 className="text-lg font-semibold my-4 uppercase">Product List</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {products.map((product) => (
-          <div key={product.id} className="bg-white border rounded-lg p-4">
+          <div key={product.id} className="bg-white border rounded-lg p-4 relative">
+             <div className="w-auto absolute bg-red-500 rounded-full py-1 px-3 text-white text-sm">
+              delete
+            </div>
             <h2 className="text-lg font-semibold uppercase">{product.name}</h2>
             <p className="text-gray-700 text-base font-medium">Price: ${product.price}</p>
             <p className="text-gray-600 text-base font-medium">{product.description}</p>
