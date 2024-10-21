@@ -199,7 +199,7 @@ const Product = () => {
                   type="text"
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
-                  className="border-[1px] border-gray-400 rounded px-2 py-1 md:px-3 font-normal text-sm focus:outline-none focus:ring focus:ring-violet-300"
+                  className="border-[1px] border-gray-400 rounded px-2 py-1 md:px-3 font-normal text-sm focus:outline-none focus:ring focus:ring-violet-300 max-w-[150px] md:w-auto"
                   placeholder="#000000"
                 />
                 <button
